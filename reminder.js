@@ -2,13 +2,13 @@ const AWS = require('aws-sdk');
 const ses = new AWS.SES();
 const axios = require('axios');
 
-const message = `The github API is working fine!!`;
+const message = `SES is working!!`;
 const messageError = `The github API is not working!!`;
-const email = 'jithujj369@gmail.com'
-
+const fromEmail = ' '
+const toEmail = ' '
 const params = [{
         Destination:{
-            ToAddresses : [email]
+            ToAddresses : [toEmail]
         },
         Message : {
             Body : {
@@ -16,11 +16,11 @@ const params = [{
             },
             Subject : { Data : "reminder email"}
         },
-        Source : email
+        Source : fromEmail
     },
     {
         Destination:{
-            ToAddresses : [email]
+            ToAddresses : [toEmail]
         },
         Message : {
             Body : {
@@ -28,26 +28,20 @@ const params = [{
             },
             Subject : { Data : "reminder email"}
         },
-        Source : email
+        Source : fromEmail
     }
     ]
     
 const sendMail = async () =>{
-    try{
-        return await ses.sendEmail(params[0]).promise().then(console.log('mail Sent'));
-    }
-    catch{
-        err=>console.error(err)
-    }
+        return await ses.sendEmail(params[0]).promise()
+        // .then(console.log('mail Sent'))
+        .catch(err=>console.error(err));
 };
 
 const sendMailError = async () =>{
-    try{
-        return await ses.sendEmail(params[1]).promise().then(console.log('mail Sent'));
-    }
-    catch{
-        err=>console.error(err)
-    }
+    return await ses.sendEmail(params[1]).promise()
+        // .then(console.log('mail Sent'))
+        .catch(err=>console.error(err));
 };
 
 const serverCheck = async () =>{
